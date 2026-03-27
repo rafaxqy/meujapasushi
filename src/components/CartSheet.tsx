@@ -37,7 +37,7 @@ export const CartSheet = () => {
       <SheetContent side="right" className="flex flex-col w-full sm:max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-primary" />
+            <ShoppingCart className="h-5 w-5 text-primary" />
             Seu Pedido
           </SheetTitle>
         </SheetHeader>
