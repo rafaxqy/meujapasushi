@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronRight, Clock, MapPin, UtensilsCrossed } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import heroImage from "@/assets/hero-sushi.jpg";
 import logoImage from "@/assets/logo-japa-sushi.png";
 import { Footer } from "@/components/Footer";
