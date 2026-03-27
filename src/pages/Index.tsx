@@ -3,6 +3,7 @@ import { menuData } from "@/data/menu";
 import { Header } from "@/components/Header";
 import { CategoryNav } from "@/components/CategoryNav";
 import { MenuItemCard } from "@/components/MenuItemCard";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   const [activeCategory, setActiveCategory] = useState(menuData[0].id);
