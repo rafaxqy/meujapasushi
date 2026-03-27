@@ -33,8 +33,9 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
             <img
               src={item.image}
               alt={item.name}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 contrast-[1.05] saturate-[1.1]"
               loading="lazy"
+              style={{ imageRendering: 'auto' }}
             />
           </div>
         )}
@@ -84,11 +85,12 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
 
             {/* Imagem grande */}
             {item.image && (
-              <div className="w-full aspect-square bg-muted">
+              <div className="w-full aspect-[4/3] bg-muted overflow-hidden">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover contrast-[1.08] saturate-[1.15] brightness-[1.02]"
+                  style={{ imageRendering: 'auto' }}
                 />
               </div>
             )}
