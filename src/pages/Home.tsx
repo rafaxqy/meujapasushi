@@ -26,7 +26,7 @@ const Home = () => {
           className="absolute inset-0 h-[120%] w-full object-cover object-center md:object-center"
           style={{ objectPosition: '50% 40%', y: imageY, scale: imageScale }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+        <motion.div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" style={{ opacity: overlayOpacity }} />
 
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
           <motion.div
