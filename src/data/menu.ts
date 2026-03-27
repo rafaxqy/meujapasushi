@@ -109,7 +109,7 @@ export const menuData: MenuCategory[] = [
     id: "acrescimos",
     name: "Acréscimos",
     items: [
-      { name: "Gergelim", price: 10, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1af89892-a4a6-4023-938a-842ce76d3a7a.png" },
+      { name: "Gergelim", price: 10, image: "/images/gergelim.png" },
       { name: "Gengibre", price: 2, image: "/images/gengibre.png" },
       { name: "Adaptador", price: 1, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/c565c5c2-8631-4b75-80da-332c728bc427.png" },
       { name: "Trident", price: 3, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/6bec6a73-be97-47d6-b32a-6a49dcf7cea2.png" },
