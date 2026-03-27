@@ -19,7 +19,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
   return (
     <div className="group flex items-center gap-3 sm:gap-4 rounded-xl border border-border bg-card p-3 sm:p-4 transition-all duration-300 hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5">
       {item.image && (
-        <div className="h-18 w-18 sm:h-22 sm:w-22 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
+        <div className="h-[72px] w-[72px] sm:h-[88px] sm:w-[88px] flex-shrink-0 overflow-hidden rounded-lg bg-muted">
           <img
             src={item.image}
             alt={item.name}
