@@ -23,17 +23,22 @@ export const Header = ({ searchTerm, onSearchChange }: Props) => {
         height={1080}
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/50" />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-end pb-12 px-4 text-center">
-        <motion.img
-          src={logoImage}
-          alt="Japa Sushi Logo"
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7 }}
-          className="h-36 w-36 md:h-44 md:w-44 object-contain mb-4 drop-shadow-2xl"
-        />
+          className="relative mb-4"
+        >
+          <div className="absolute inset-0 rounded-full bg-background/60 backdrop-blur-sm scale-[0.85]" />
+          <img
+            src={logoImage}
+            alt="Japa Sushi Logo"
+            className="relative h-36 w-36 md:h-44 md:w-44 object-contain drop-shadow-2xl"
+          />
+        </motion.div>
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
