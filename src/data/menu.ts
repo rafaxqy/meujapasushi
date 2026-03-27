@@ -87,8 +87,8 @@ export const menuData: MenuCategory[] = [
     id: "hot-rolls",
     name: "Hot Rolls",
     items: [
-      { name: "Hot Tradicional 1 Peça", price: 3.5, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0006c7d0-a879-42cf-bf4a-e527fc30a124.png" },
-      { name: "Hot Tradicional 5 Peças", price: 15, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1e3c4041-80b9-4caf-a5f3-7361810858be.png" },
+      { name: "Hot Tradicional 1 Peça", price: 3.5, description: "Enrolado frito de salmão e arroz", image: "/images/hot-tradicional.png" },
+      { name: "Hot Tradicional 5 Peças", price: 15, description: "Enrolado frito de salmão e arroz", image: "/images/hot-tradicional.png" },
     ],
   },
   {
