@@ -51,7 +51,7 @@ export const menuData: MenuCategory[] = [
       { name: "Canapé 4 un (Salmão Grelhado)", price: 20, description: "Massa de harumaki frita com salmão cru ou grelhado", image: "/images/canape-salmao.png" },
       { name: "Rolinho Primavera Inteira (Romeu e Julieta)", price: 35, description: "8 unidades", image: "/images/rolinho-primavera.png" },
       { name: "Rolinho Primavera Meia (Romeu e Julieta)", price: 18, description: "4 unidades", image: "/images/rolinho-primavera.png" },
-      { name: "Ceviche Inteira", price: 65, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/a5a7e9da-4ebb-4691-9b4c-408d5a0d0314.png" },
+      { name: "Ceviche Inteira", price: 65, image: "/images/ceviche.png" },
     ],
   },
   {
