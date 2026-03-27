@@ -80,7 +80,7 @@ export const menuData: MenuCategory[] = [
     name: "Peças Especiais",
     items: [
       { name: "Jhow Alface", price: 5, description: "Sem arroz, batata doce frita e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/44801904-f08a-4528-b4ed-99df1fe6ba8c.png" },
-      { name: "Akira", price: 6, description: "Salmão maçaricado, cream cheese e camarão", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/09e8818d-73a9-4f28-97a9-4d1a644fba1e.png" },
+      { name: "Akira", price: 6, description: "Salmão maçaricado, cream cheese e camarão", image: "/images/akira.png" },
     ],
   },
   {
