@@ -99,14 +99,17 @@ const Cardapio = () => {
               ref={(el: HTMLDivElement | null) => { sectionRefs.current[category.id] = el; }}
               className="mb-10 scroll-mt-28"
             >
-              <div className="mb-5 flex items-center gap-3">
-                <div className="h-px flex-1 bg-gradient-to-r from-primary/40 to-transparent" />
-                <h2 className="text-lg font-semibold uppercase tracking-widest text-foreground">
-                  {category.name}
-                </h2>
-                <div className="h-px flex-1 bg-gradient-to-l from-primary/40 to-transparent" />
+              <div className="mb-6 text-center">
+                <div className="flex items-center gap-4 mb-1">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-primary/50 to-primary/50" />
+                  <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-[0.2em] text-foreground font-serif">
+                    {category.name}
+                  </h2>
+                  <div className="h-px flex-1 bg-gradient-to-l from-transparent via-primary/50 to-primary/50" />
+                </div>
+                <div className="w-12 h-0.5 bg-primary mx-auto rounded-full" />
               </div>
-              <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {category.items.map((item) => (
                   <MenuItemCard key={item.name} item={item} />
                 ))}
