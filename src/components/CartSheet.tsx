@@ -1,4 +1,4 @@
-import { Minus, Plus, ShoppingBag, Trash2, Send } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Trash2, Send } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import {
   Sheet,
