@@ -115,13 +115,27 @@ export const CartSheet = () => {
                 <span className="text-muted-foreground">Total</span>
                 <span className="text-xl font-bold text-foreground">{formatPrice(totalPrice)}</span>
               </div>
-              <Button
-                onClick={sendToWhatsApp}
-                className="w-full gap-2 rounded-full py-6 text-base"
-              >
-                <Send className="h-5 w-5" />
-                Enviar Pedido pelo WhatsApp
-              </Button>
+              {storeOpen ? (
+                <Button
+                  onClick={sendToWhatsApp}
+                  className="w-full gap-2 rounded-full py-6 text-base"
+                >
+                  <Send className="h-5 w-5" />
+                  Enviar Pedido pelo WhatsApp
+                </Button>
+              ) : (
+                <div className="w-full text-center space-y-2">
+                  <div className="flex items-center justify-center gap-2 rounded-full py-4 px-5 bg-destructive/10 border border-destructive/20">
+                    <Clock className="h-5 w-5 text-destructive" />
+                    <span className="text-sm font-medium text-destructive">
+                      Loja fechada no momento
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Funcionamos das {OPEN_HOUR}h às {CLOSE_HOUR}h
+                  </p>
+                </div>
+              )}
               <button
                 onClick={clearCart}
                 className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
