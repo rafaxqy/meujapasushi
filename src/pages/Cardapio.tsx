@@ -106,7 +106,7 @@ const Cardapio = () => {
                 </h2>
                 <div className="h-px flex-1 bg-gradient-to-l from-primary/40 to-transparent" />
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
                 {category.items.map((item) => (
                   <MenuItemCard key={item.name} item={item} />
                 ))}
