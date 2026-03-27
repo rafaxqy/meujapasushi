@@ -47,7 +47,7 @@ export const menuData: MenuCategory[] = [
     name: "Entradas",
     items: [
       { name: "Bolinho de Arroz Frito (1 un)", price: 6, description: "Arroz com cream cheese, cebolinha, kani e temperos", image: "/images/bolinho-arroz.png" },
-      { name: "Bolinho de Salmão (1 un)", price: 10, description: "Salmão grelhado com cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/55c58fd8-2d6c-4a4b-b7ca-096e07d40514.png" },
+      { name: "Bolinho de Salmão (1 un)", price: 10, description: "Salmão grelhado com cebolinha e cream cheese", image: "/images/bolinho-salmao.png" },
       { name: "Canapé 4 un (Salmão Grelhado)", price: 20, description: "Massa de harumaki frita com salmão cru ou grelhado", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/8e022347-0a30-4b66-82a5-225c8f742403.png" },
       { name: "Rolinho Primavera Inteira (Romeu e Julieta)", price: 35, description: "8 unidades", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/06b6928b-9716-4c89-9014-c9d730915e4d.png" },
       { name: "Rolinho Primavera Meia (Romeu e Julieta)", price: 18, description: "4 unidades", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/4f2133dc-250d-41ee-b1d5-f65b82058ab6.png" },
