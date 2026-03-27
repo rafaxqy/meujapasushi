@@ -38,7 +38,7 @@ const Cardapio = () => {
     <div className="min-h-screen bg-background">
       {/* Top bar */}
       <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border">
-        <div className="mx-auto max-w-4xl flex items-center gap-3 px-4 py-3">
+        <div className="mx-auto max-w-4xl flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
           <Link
             to="/"
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -85,7 +85,7 @@ const Cardapio = () => {
         onSelect={scrollTo}
       />
 
-      <main className="mx-auto max-w-4xl px-4 py-6 pb-24">
+      <main className="mx-auto max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
         {filteredData.length === 0 ? (
           <div className="py-20 text-center text-muted-foreground">
             <p className="text-4xl mb-3">🔍</p>
@@ -106,7 +106,7 @@ const Cardapio = () => {
                 </h2>
                 <div className="h-px flex-1 bg-gradient-to-l from-primary/40 to-transparent" />
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-2.5 sm:gap-3 sm:grid-cols-2">
                 {category.items.map((item) => (
                   <MenuItemCard key={item.name} item={item} />
                 ))}
@@ -124,7 +124,7 @@ const Cardapio = () => {
         href="https://wa.me/5538998305282"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[hsl(142,70%,45%)] text-white shadow-xl transition-transform hover:scale-110"
+        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[hsl(142,70%,45%)] text-white shadow-xl transition-transform hover:scale-110"
         aria-label="WhatsApp"
       >
         <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current">
