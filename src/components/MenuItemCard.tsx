@@ -33,8 +33,9 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
             <img
               src={item.image}
               alt={item.name}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 contrast-[1.05] saturate-[1.1]"
               loading="lazy"
+              style={{ imageRendering: 'auto' }}
             />
           </div>
         )}
