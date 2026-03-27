@@ -1,4 +1,4 @@
-import { Minus, Plus, ShoppingBag, Trash2, Send } from "lucide-react";
+import { Minus, Plus, ShoppingCart, Trash2, Send } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import {
   Sheet,
@@ -28,7 +28,7 @@ export const CartSheet = () => {
     <Sheet>
       <SheetTrigger asChild>
         <button className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 sm:px-5 py-3 sm:py-3.5 text-primary-foreground shadow-xl transition-transform hover:scale-105">
-          <ShoppingBag className="h-5 w-5" />
+          <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
             <span className="text-sm font-bold">{totalItems}</span>
           )}
@@ -37,14 +37,14 @@ export const CartSheet = () => {
       <SheetContent side="right" className="flex flex-col w-full sm:max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-primary" />
+            <ShoppingCart className="h-5 w-5 text-primary" />
             Seu Pedido
           </SheetTitle>
         </SheetHeader>
 
         {items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
-            <ShoppingBag className="h-12 w-12 mb-3 opacity-30" />
+            <ShoppingCart className="h-12 w-12 mb-3 opacity-30" />
             <p className="font-medium">Carrinho vazio</p>
             <p className="text-sm mt-1">Adicione itens do cardápio</p>
           </div>
