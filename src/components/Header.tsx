@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
 import heroImage from "@/assets/hero-sushi.jpg";
+import logoImage from "@/assets/logo-japa-sushi.png";
 
 type Props = {
   searchTerm: string;
@@ -12,7 +13,7 @@ export const Header = ({ searchTerm, onSearchChange }: Props) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <header className="relative h-[420px] md:h-[480px] overflow-hidden">
+    <header className="relative h-[480px] md:h-[520px] overflow-hidden">
       {/* Background image */}
       <img
         src={heroImage}
@@ -25,27 +26,19 @@ export const Header = ({ searchTerm, onSearchChange }: Props) => {
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-end pb-12 px-4 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-xs font-semibold uppercase tracking-[0.4em] text-primary mb-3"
-        >
-          Cardápio Digital
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold tracking-tight text-gradient"
-        >
-          Japa Sushi
-        </motion.h1>
+        <motion.img
+          src={logoImage}
+          alt="Japa Sushi Logo"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7 }}
+          className="h-36 w-36 md:h-44 md:w-44 object-contain mb-4 drop-shadow-2xl"
+        />
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-3 text-sm text-muted-foreground font-light tracking-wide"
+          className="mt-1 text-sm text-muted-foreground font-light tracking-wide"
         >
           寿司 — Sabores autênticos da culinária japonesa
         </motion.p>
