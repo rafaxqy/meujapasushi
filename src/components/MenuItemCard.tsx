@@ -11,11 +11,15 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
   const [added, setAdded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleAdd = (e?: React.MouseEvent) => {
+  const handleAdd = (e?: React.MouseEvent, closeAfter = false) => {
     e?.stopPropagation();
     addItem(item);
     setAdded(true);
-    setTimeout(() => setAdded(false), 800);
+    if (closeAfter) {
+      setTimeout(() => { setAdded(false); setModalOpen(false); }, 600);
+    } else {
+      setTimeout(() => setAdded(false), 800);
+    }
   };
 
   return (
