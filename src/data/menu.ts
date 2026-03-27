@@ -64,14 +64,14 @@ export const menuData: MenuCategory[] = [
       { name: "Temaki Skin sem Arroz", price: 38, description: "Alga, skin salmão, cebolinha e cream cheese", image: "/images/temaki-skin.png" },
       { name: "Temaki Hot sem Arroz", price: 46, description: "Alga, salmão grelhado, cebolinha, cream cheese, empanado e frito", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/de781342-bde6-44d7-be72-446c2db22bb9.png" },
       { name: "Temaki California sem Arroz", price: 40, description: "Alga, manga, pepino e kani", image: "/images/temaki-california.png" },
-      { name: "Temaki Camarão sem Arroz", price: 80, description: "Alga, camarão, cebolinha e cream cheese", image: "/images/temaki-camarao.png" },
+      { name: "Temaki Camarão sem Arroz", price: 80, description: "Alga, camarão, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/8e2a5c76-928e-41ff-b71e-b223c9e53e1c.png" },
     ],
   },
   {
     id: "combos",
     name: "Combos",
     items: [
-      { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "/images/combo-15.png" },
+      { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0c01f932-3fcc-44e4-8886-cf582a112466.png" },
       { name: "Combo Japa Sushi", price: 60, description: "4 sashimi, 4 jhow salmão, 2 jhow geleia, 4 niguiri, 2 baterá", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/049767f4-f82d-40c4-8408-22c993709846.png" },
     ],
   },
