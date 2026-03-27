@@ -1,0 +1,149 @@
+export type MenuItem = {
+  name: string;
+  price: number;
+  description?: string;
+  image?: string;
+};
+
+export type MenuCategory = {
+  id: string;
+  name: string;
+  emoji: string;
+  items: MenuItem[];
+};
+
+export const menuData: MenuCategory[] = [
+  {
+    id: "sucos",
+    name: "Sucos",
+    emoji: "🍊",
+    items: [
+      { name: "Suco Natural 350ml (Limão)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/40df10e0-1aad-466d-ad85-b229a4299a7f.png" },
+      { name: "Suco Natural 350ml (Laranja)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/ec6793ca-a184-404f-80a5-a02f61de2fdd.png" },
+      { name: "Suco Natural 350ml (Abacaxi)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/9cce536b-2edc-4417-92ad-83eb0cf74c3c.png" },
+      { name: "Suco Natural 350ml (Maracujá)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/21b84c20-06cf-4d9b-8f7f-ef2906d4304d.jpeg" },
+    ],
+  },
+  {
+    id: "bebidas",
+    name: "Bebidas",
+    emoji: "🥤",
+    items: [
+      { name: "Água Mineral", price: 4, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/f447ca65-14b1-469c-8ab7-c50ebc70a605.jpeg" },
+      { name: "Água Mineral c/ Gás", price: 5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/d444fcdc-a974-40a2-8c8a-e66264d504c1.jpeg" },
+      { name: "H2OH", price: 7, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/6c4f0bc8-dbb2-4077-9dd8-d99ea648594e.jpeg" },
+      { name: "Coca Cola 350ml", price: 6, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/78694bba-ae99-4a18-bd45-c7d7d70b06ed.jpeg" },
+      { name: "Coca Cola 1L", price: 10, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/cf9ef892-bdfe-4587-bf95-6817f88b1df5.jpeg" },
+      { name: "Coca Cola 2L", price: 15, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/520eebe8-d442-48a8-bc21-c4cc26573574.png" },
+      { name: "Guaraná 350ml", price: 6, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/4770a4b8-12cd-4381-b129-7801488b69f9.jpeg" },
+      { name: "Guaraná 1L", price: 9, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/e350da94-5cd0-4ff1-9d9f-5acde34424d3.jpeg" },
+      { name: "Fanta 350ml", price: 6, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/34edeaa9-821e-4faf-9afc-b79ceb39a552.jpeg" },
+      { name: "Sprite 350ml", price: 6, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/9d0af3dc-2a94-488e-b71b-a54541dc2749.jpeg" },
+      { name: "Monster 473ml", price: 12, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/46904e96-7188-4fa7-bf9c-b2a0effed9f9.png" },
+      { name: "Red Bull", price: 12, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/66729450-7a2f-4f61-9f93-9d7fe7a5157f.png" },
+      { name: "Budweiser Long Neck", price: 9, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/a38b60fd-9bc1-4e8a-aac7-9870c275860f.jpeg" },
+      { name: "Heineken Long Neck", price: 10, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/f45cb5e9-9e8e-4152-b370-d508a5c8aa15.jpeg" },
+    ],
+  },
+  {
+    id: "entradas",
+    name: "Entradas",
+    emoji: "🥟",
+    items: [
+      { name: "Bolinho de Arroz Frito (1 un)", price: 6, description: "Arroz com cream cheese, cebolinha, kani e temperos", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/641262da-dcbc-4f8f-a6a2-660632cb710c.png" },
+      { name: "Bolinho de Salmão (1 un)", price: 10, description: "Salmão grelhado com cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/55c58fd8-2d6c-4a4b-b7ca-096e07d40514.png" },
+      { name: "Canapé 4 un (Salmão Grelhado)", price: 20, description: "Massa de harumaki frita com salmão cru ou grelhado", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/8e022347-0a30-4b66-82a5-225c8f742403.png" },
+      { name: "Rolinho Primavera Inteira (Romeu e Julieta)", price: 35, description: "8 unidades", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/06b6928b-9716-4c89-9014-c9d730915e4d.png" },
+      { name: "Rolinho Primavera Meia (Romeu e Julieta)", price: 18, description: "4 unidades", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/4f2133dc-250d-41ee-b1d5-f65b82058ab6.png" },
+      { name: "Ceviche Inteira", price: 65, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/a5a7e9da-4ebb-4691-9b4c-408d5a0d0314.png" },
+    ],
+  },
+  {
+    id: "temakis",
+    name: "Temakis",
+    emoji: "🍣",
+    items: [
+      { name: "Temaki Salmão", price: 38, description: "Alga, arroz, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/b9b285e2-e784-40c4-817b-cd4edcb30515.png" },
+      { name: "Temaki Salmão sem Arroz", price: 48, description: "Alga, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/bab882be-0a12-45e4-81ab-f02cc646681a.png" },
+      { name: "Temaki Filadélfia sem Arroz", price: 45, description: "Alga, salmão grelhado, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdf6891-45b8-4ff8-af8e-46aa50957d37.png" },
+      { name: "Temaki Skin sem Arroz", price: 38, description: "Alga, skin salmão, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/ffa58667-f8d3-4660-ba54-9309553e3f8e.png" },
+      { name: "Temaki Hot sem Arroz", price: 46, description: "Alga, salmão grelhado, cebolinha, cream cheese, empanado e frito", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/de781342-bde6-44d7-be72-446c2db22bb9.png" },
+      { name: "Temaki California sem Arroz", price: 40, description: "Alga, manga, pepino e kani", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/b001051c-91b0-4d79-a70a-c42b38418982.png" },
+      { name: "Temaki Camarão sem Arroz", price: 80, description: "Alga, camarão, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/8e2a5c76-928e-41ff-b71e-b223c9e53e1c.png" },
+    ],
+  },
+  {
+    id: "combos",
+    name: "Combos",
+    emoji: "🍱",
+    items: [
+      { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0c01f932-3fcc-44e4-8886-cf582a112466.png" },
+      { name: "Combo Japa Sushi", price: 60, description: "4 sashimi, 4 jhow salmão, 2 jhow geleia, 4 niguiri, 2 baterá", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/049767f4-f82d-40c4-8408-22c993709846.png" },
+    ],
+  },
+  {
+    id: "pecas-especiais",
+    name: "Peças Especiais",
+    emoji: "⭐",
+    items: [
+      { name: "Jhow Alface", price: 5, description: "Sem arroz, batata doce frita e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/44801904-f08a-4528-b4ed-99df1fe6ba8c.png" },
+      { name: "Akira", price: 6, description: "Salmão maçaricado, cream cheese e camarão", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/09e8818d-73a9-4f28-97a9-4d1a644fba1e.png" },
+    ],
+  },
+  {
+    id: "hot-rolls",
+    name: "Hot Rolls",
+    emoji: "🔥",
+    items: [
+      { name: "Hot Tradicional 1 Peça", price: 3.5, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0006c7d0-a879-42cf-bf4a-e527fc30a124.png" },
+      { name: "Hot Tradicional 5 Peças", price: 15, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1e3c4041-80b9-4caf-a5f3-7361810858be.png" },
+    ],
+  },
+  {
+    id: "sashimi",
+    name: "Sashimi",
+    emoji: "🐟",
+    items: [
+      { name: "Sashimi (Unidade)", price: 5.5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdc48af-ce81-4c34-aa0c-8c1200b94eef.png" },
+    ],
+  },
+  {
+    id: "tradicionais",
+    name: "Tradicionais",
+    emoji: "🍙",
+    items: [
+      { name: "Hossomaki 1 Peça", price: 3.5, description: "Arroz, alga, cream cheese, salmão cru ou kani", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/e52d1868-8fde-4262-b6f2-51879d9d5e36.png" },
+    ],
+  },
+  {
+    id: "acrescimos",
+    name: "Acréscimos",
+    emoji: "➕",
+    items: [
+      { name: "Gergelim", price: 10, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1af89892-a4a6-4023-938a-842ce76d3a7a.png" },
+      { name: "Gengibre", price: 2, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/033512da-d586-48b0-849f-0df217c210be.png" },
+      { name: "Adaptador", price: 1, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/c565c5c2-8631-4b75-80da-332c728bc427.png" },
+      { name: "Trident", price: 3, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/6bec6a73-be97-47d6-b32a-6a49dcf7cea2.png" },
+      { name: "Babalu", price: 0.5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/d1f0165c-a30f-4fff-b7e3-450e5ce2a734.png" },
+    ],
+  },
+  {
+    id: "porcoes",
+    name: "Porções",
+    emoji: "🍽️",
+    items: [
+      { name: "Carne de Sol c/ Batata Frita", price: 50, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/c8a31dc6-c15c-4c29-b46e-f1c39dda55e9.png" },
+      { name: "Yakisoba Vegetariano", price: 35, description: "Sem proteína animal" },
+    ],
+  },
+  {
+    id: "sobremesas",
+    name: "Sobremesas",
+    emoji: "🍮",
+    items: [
+      { name: "Tatuzinho (10 pçs)", price: 25, description: "Goiabada, cream cheese, leite condensado e farinha láctea", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/d6b322b9-cd3d-4e48-9684-70b52255cff6.png" },
+      { name: "Tatuzinho (5 pçs)", price: 15, description: "Goiabada, cream cheese, leite condensado e farinha láctea", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/fa06efe4-1653-4761-bba0-470471ad8787.png" },
+      { name: "Petit Gateau", price: 30, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0b33e824-6b0b-4576-90c8-6c269386e425.png" },
+    ],
+  },
+];
