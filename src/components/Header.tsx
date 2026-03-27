@@ -23,7 +23,7 @@ export const Header = ({ searchTerm, onSearchChange }: Props) => {
         height={1080}
       />
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/50" />
 
       <div className="relative z-10 flex h-full flex-col items-center justify-end pb-12 px-4 text-center">
         <motion.img
