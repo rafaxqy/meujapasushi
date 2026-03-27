@@ -124,7 +124,7 @@ const Cardapio = () => {
         href="https://wa.me/5538998305282"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[hsl(142,70%,45%)] text-white shadow-xl transition-transform hover:scale-110"
+        className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[hsl(142,70%,45%)] text-white shadow-xl transition-transform hover:scale-110"
         aria-label="WhatsApp"
       >
         <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current">
