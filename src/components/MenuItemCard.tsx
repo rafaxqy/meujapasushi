@@ -11,11 +11,15 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
   const [added, setAdded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleAdd = (e?: React.MouseEvent) => {
+  const handleAdd = (e?: React.MouseEvent, closeAfter = false) => {
     e?.stopPropagation();
     addItem(item);
     setAdded(true);
-    setTimeout(() => setAdded(false), 800);
+    if (closeAfter) {
+      setTimeout(() => { setAdded(false); setModalOpen(false); }, 600);
+    } else {
+      setTimeout(() => setAdded(false), 800);
+    }
   };
 
   return (
@@ -104,7 +108,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
                   {formatPrice(item.price)}
                 </span>
                 <button
-                  onClick={handleAdd}
+                  onClick={(e) => handleAdd(e, true)}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-200 ${
                     added
                       ? "bg-green-600 text-white scale-105"
