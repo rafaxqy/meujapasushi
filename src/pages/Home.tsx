@@ -7,15 +7,24 @@ import logoImage from "@/assets/logo-japa-sushi.png";
 import { Footer } from "@/components/Footer";
 
 const Home = () => {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.7, 0.95]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen overflow-hidden">
-        <img
+      <section ref={heroRef} className="relative h-screen overflow-hidden">
+        <motion.img
           src={heroImage}
           alt="Japa Sushi"
-          className="absolute inset-0 h-full w-full object-cover object-center md:object-center"
-          style={{ objectPosition: '50% 40%' }}
+          className="absolute inset-0 h-[120%] w-full object-cover object-center md:object-center"
+          style={{ objectPosition: '50% 40%', y: imageY, scale: imageScale }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
 
