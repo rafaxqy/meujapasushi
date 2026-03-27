@@ -8,7 +8,6 @@ export type MenuItem = {
 export type MenuCategory = {
   id: string;
   name: string;
-  emoji: string;
   items: MenuItem[];
 };
 

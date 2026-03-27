@@ -52,14 +52,13 @@ const Index = () => {
               ref={(el: HTMLDivElement | null) => { sectionRefs.current[category.id] = el; }}
               className="mb-10 scroll-mt-20"
             >
-              <div className="mb-4 flex items-center gap-2">
-                <span className="text-xl">{category.emoji}</span>
-                <h2 className="text-xl font-semibold text-foreground">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-primary/40 to-transparent" />
+                <h2 className="text-lg font-semibold uppercase tracking-widest text-foreground">
                   {category.name}
                 </h2>
-                <span className="ml-auto text-xs text-muted-foreground rounded-full bg-muted px-2.5 py-1">
-                  {category.items.length} {category.items.length === 1 ? "item" : "itens"}
-                </span>
+                <div className="h-px flex-1 bg-gradient-to-l from-primary/40 to-transparent" />
+              </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 {category.items.map((item) => (
