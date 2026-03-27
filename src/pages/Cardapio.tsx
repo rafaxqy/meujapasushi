@@ -85,7 +85,7 @@ const Cardapio = () => {
         onSelect={scrollTo}
       />
 
-      <main className="mx-auto max-w-4xl px-4 py-6 pb-24">
+      <main className="mx-auto max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
         {filteredData.length === 0 ? (
           <div className="py-20 text-center text-muted-foreground">
             <p className="text-4xl mb-3">🔍</p>
