@@ -13,8 +13,23 @@ import { Button } from "@/components/ui/button";
 const formatPrice = (price: number) =>
   price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+const OPEN_HOUR = 18;
+const CLOSE_HOUR = 23;
+
+const isStoreOpen = () => {
+  const now = new Date();
+  const hour = now.getHours();
+  return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+};
+
 export const CartSheet = () => {
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCart();
+  const [storeOpen, setStoreOpen] = useState(isStoreOpen());
+
+  useEffect(() => {
+    const interval = setInterval(() => setStoreOpen(isStoreOpen()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const sendToWhatsApp = () => {
     const lines = items.map(
