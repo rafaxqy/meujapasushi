@@ -58,7 +58,7 @@ export const menuData: MenuCategory[] = [
     id: "temakis",
     name: "Temakis",
     items: [
-      { name: "Temaki Salmão", price: 38, description: "Alga, arroz, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/b9b285e2-e784-40c4-817b-cd4edcb30515.png" },
+      { name: "Temaki Salmão", price: 38, description: "Alga, arroz, salmão cru, cebolinha e cream cheese", image: "/images/temaki-salmao.png" },
       { name: "Temaki Salmão sem Arroz", price: 48, description: "Alga, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/bab882be-0a12-45e4-81ab-f02cc646681a.png" },
       { name: "Temaki Filadélfia sem Arroz", price: 45, description: "Alga, salmão grelhado, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdf6891-45b8-4ff8-af8e-46aa50957d37.png" },
       { name: "Temaki Skin sem Arroz", price: 38, description: "Alga, skin salmão, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/ffa58667-f8d3-4660-ba54-9309553e3f8e.png" },
