@@ -23,7 +23,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
           <img
             src={item.image}
             alt={item.name}
-            className="h-full w-full object-cover scale-125 transition-transform duration-500 group-hover:scale-140"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
         </div>
