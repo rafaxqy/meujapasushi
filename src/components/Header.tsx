@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
 import heroImage from "@/assets/hero-sushi.jpg";
-import logoImage from "@/assets/logo-japa-sushi-clean.png";
+import logoImage from "@/assets/logo-japa-sushi.png";
 
 type Props = {
   searchTerm: string;
