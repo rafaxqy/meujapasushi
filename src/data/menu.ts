@@ -71,7 +71,7 @@ export const menuData: MenuCategory[] = [
     id: "combos",
     name: "Combos",
     items: [
-      { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0c01f932-3fcc-44e4-8886-cf582a112466.png" },
+      { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "/images/combo-15.png" },
       { name: "Combo Japa Sushi", price: 60, description: "4 sashimi, 4 jhow salmão, 2 jhow geleia, 4 niguiri, 2 baterá", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/049767f4-f82d-40c4-8408-22c993709846.png" },
     ],
   },
