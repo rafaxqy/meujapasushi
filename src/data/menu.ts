@@ -16,10 +16,10 @@ export const menuData: MenuCategory[] = [
     id: "sucos",
     name: "Sucos",
     items: [
-      { name: "Suco Natural 350ml (Limão)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/40df10e0-1aad-466d-ad85-b229a4299a7f.png" },
-      { name: "Suco Natural 350ml (Laranja)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/ec6793ca-a184-404f-80a5-a02f61de2fdd.png" },
-      { name: "Suco Natural 350ml (Abacaxi)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/9cce536b-2edc-4417-92ad-83eb0cf74c3c.png" },
-      { name: "Suco Natural 350ml (Maracujá)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/21b84c20-06cf-4d9b-8f7f-ef2906d4304d.jpeg" },
+      { name: "Suco Natural 350ml (Limão)", price: 8, image: "/images/suco-limao.jpg" },
+      { name: "Suco Natural 350ml (Laranja)", price: 8, image: "/images/suco-laranja.jpg" },
+      { name: "Suco Natural 350ml (Abacaxi)", price: 8, image: "/images/suco-abacaxi.jpg" },
+      { name: "Suco Natural 350ml (Maracujá)", price: 8, image: "/images/suco-maracuja.jpg" },
     ],
   },
   {
