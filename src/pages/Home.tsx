@@ -13,7 +13,8 @@ const Home = () => {
         <img
           src={heroImage}
           alt="Japa Sushi"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center md:object-center"
+          style={{ objectPosition: '50% 40%' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
 
