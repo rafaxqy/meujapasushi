@@ -49,7 +49,7 @@ const Index = () => {
           filteredData.map((category) => (
             <section
               key={category.id}
-              ref={(el) => { sectionRefs.current[category.id] = el; }}
+              ref={(el: HTMLDivElement | null) => { sectionRefs.current[category.id] = el; }}
               className="mb-10 scroll-mt-20"
             >
               <div className="mb-4 flex items-center gap-2">
