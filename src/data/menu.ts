@@ -102,7 +102,7 @@ export const menuData: MenuCategory[] = [
     id: "tradicionais",
     name: "Tradicionais",
     items: [
-      { name: "Hossomaki 1 Peça", price: 3.5, description: "Arroz, alga, cream cheese, salmão cru ou kani", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/e52d1868-8fde-4262-b6f2-51879d9d5e36.png" },
+      { name: "Hossomaki 1 Peça", price: 3.5, description: "Arroz, alga, cream cheese, salmão cru ou kani", image: "/images/hossomaki.png" },
     ],
   },
   {
