@@ -28,7 +28,7 @@ export const CartSheet = () => {
     <Sheet>
       <SheetTrigger asChild>
         <button className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50 flex items-center gap-2 rounded-full bg-primary px-4 sm:px-5 py-3 sm:py-3.5 text-primary-foreground shadow-xl transition-transform hover:scale-105">
-          <ShoppingBag className="h-5 w-5" />
+          <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
             <span className="text-sm font-bold">{totalItems}</span>
           )}
