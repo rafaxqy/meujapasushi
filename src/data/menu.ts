@@ -95,7 +95,7 @@ export const menuData: MenuCategory[] = [
     id: "sashimi",
     name: "Sashimi",
     items: [
-      { name: "Sashimi (Unidade)", price: 5.5, image: "/images/sashimi.png" },
+      { name: "Sashimi (Unidade)", price: 5.5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdc48af-ce81-4c34-aa0c-8c1200b94eef.png" },
     ],
   },
   {
