@@ -8,7 +8,6 @@ export type MenuItem = {
 export type MenuCategory = {
   id: string;
   name: string;
-  emoji: string;
   items: MenuItem[];
 };
 
@@ -16,7 +15,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "sucos",
     name: "Sucos",
-    emoji: "🍊",
     items: [
       { name: "Suco Natural 350ml (Limão)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/40df10e0-1aad-466d-ad85-b229a4299a7f.png" },
       { name: "Suco Natural 350ml (Laranja)", price: 8, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/ec6793ca-a184-404f-80a5-a02f61de2fdd.png" },
@@ -27,7 +25,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "bebidas",
     name: "Bebidas",
-    emoji: "🥤",
     items: [
       { name: "Água Mineral", price: 4, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/f447ca65-14b1-469c-8ab7-c50ebc70a605.jpeg" },
       { name: "Água Mineral c/ Gás", price: 5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/d444fcdc-a974-40a2-8c8a-e66264d504c1.jpeg" },
@@ -48,7 +45,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "entradas",
     name: "Entradas",
-    emoji: "🥟",
     items: [
       { name: "Bolinho de Arroz Frito (1 un)", price: 6, description: "Arroz com cream cheese, cebolinha, kani e temperos", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/641262da-dcbc-4f8f-a6a2-660632cb710c.png" },
       { name: "Bolinho de Salmão (1 un)", price: 10, description: "Salmão grelhado com cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/55c58fd8-2d6c-4a4b-b7ca-096e07d40514.png" },
@@ -61,7 +57,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "temakis",
     name: "Temakis",
-    emoji: "🍣",
     items: [
       { name: "Temaki Salmão", price: 38, description: "Alga, arroz, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/b9b285e2-e784-40c4-817b-cd4edcb30515.png" },
       { name: "Temaki Salmão sem Arroz", price: 48, description: "Alga, salmão cru, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/bab882be-0a12-45e4-81ab-f02cc646681a.png" },
@@ -75,7 +70,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "combos",
     name: "Combos",
-    emoji: "🍱",
     items: [
       { name: "Combo 15 Peças", price: 45, description: "2 sashimi, 2 jhow tradicional, 2 baterá, 2 niguiri, 3 uramaki, 2 hossomaki, 2 hot roll", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0c01f932-3fcc-44e4-8886-cf582a112466.png" },
       { name: "Combo Japa Sushi", price: 60, description: "4 sashimi, 4 jhow salmão, 2 jhow geleia, 4 niguiri, 2 baterá", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/049767f4-f82d-40c4-8408-22c993709846.png" },
@@ -84,7 +78,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "pecas-especiais",
     name: "Peças Especiais",
-    emoji: "⭐",
     items: [
       { name: "Jhow Alface", price: 5, description: "Sem arroz, batata doce frita e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/44801904-f08a-4528-b4ed-99df1fe6ba8c.png" },
       { name: "Akira", price: 6, description: "Salmão maçaricado, cream cheese e camarão", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/09e8818d-73a9-4f28-97a9-4d1a644fba1e.png" },
@@ -93,7 +86,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "hot-rolls",
     name: "Hot Rolls",
-    emoji: "🔥",
     items: [
       { name: "Hot Tradicional 1 Peça", price: 3.5, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/0006c7d0-a879-42cf-bf4a-e527fc30a124.png" },
       { name: "Hot Tradicional 5 Peças", price: 15, description: "Enrolado frito de salmão e arroz", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1e3c4041-80b9-4caf-a5f3-7361810858be.png" },
@@ -102,7 +94,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "sashimi",
     name: "Sashimi",
-    emoji: "🐟",
     items: [
       { name: "Sashimi (Unidade)", price: 5.5, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdc48af-ce81-4c34-aa0c-8c1200b94eef.png" },
     ],
@@ -110,7 +101,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "tradicionais",
     name: "Tradicionais",
-    emoji: "🍙",
     items: [
       { name: "Hossomaki 1 Peça", price: 3.5, description: "Arroz, alga, cream cheese, salmão cru ou kani", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/e52d1868-8fde-4262-b6f2-51879d9d5e36.png" },
     ],
@@ -118,7 +108,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "acrescimos",
     name: "Acréscimos",
-    emoji: "➕",
     items: [
       { name: "Gergelim", price: 10, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/1af89892-a4a6-4023-938a-842ce76d3a7a.png" },
       { name: "Gengibre", price: 2, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/033512da-d586-48b0-849f-0df217c210be.png" },
@@ -130,7 +119,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "porcoes",
     name: "Porções",
-    emoji: "🍽️",
     items: [
       { name: "Carne de Sol c/ Batata Frita", price: 50, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/c8a31dc6-c15c-4c29-b46e-f1c39dda55e9.png" },
       { name: "Yakisoba Vegetariano", price: 35, description: "Sem proteína animal" },
@@ -139,7 +127,6 @@ export const menuData: MenuCategory[] = [
   {
     id: "sobremesas",
     name: "Sobremesas",
-    emoji: "🍮",
     items: [
       { name: "Tatuzinho (10 pçs)", price: 25, description: "Goiabada, cream cheese, leite condensado e farinha láctea", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/d6b322b9-cd3d-4e48-9684-70b52255cff6.png" },
       { name: "Tatuzinho (5 pçs)", price: 15, description: "Goiabada, cream cheese, leite condensado e farinha láctea", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/fa06efe4-1653-4761-bba0-470471ad8787.png" },

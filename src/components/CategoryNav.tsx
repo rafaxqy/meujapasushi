@@ -23,7 +23,6 @@ export const CategoryNav = ({ categories, activeCategory, onSelect }: Props) => 
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               )}
             >
-              <span className="mr-1.5">{cat.emoji}</span>
               {cat.name}
             </button>
           ))}
