@@ -44,7 +44,7 @@ export const CartSheet = () => {
 
         {items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
-            <ShoppingBag className="h-12 w-12 mb-3 opacity-30" />
+            <ShoppingCart className="h-12 w-12 mb-3 opacity-30" />
             <p className="font-medium">Carrinho vazio</p>
             <p className="text-sm mt-1">Adicione itens do cardápio</p>
           </div>
