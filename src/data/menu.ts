@@ -121,7 +121,7 @@ export const menuData: MenuCategory[] = [
     name: "Porções",
     items: [
       { name: "Carne de Sol c/ Batata Frita", price: 50, image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/c8a31dc6-c15c-4c29-b46e-f1c39dda55e9.png" },
-      { name: "Yakisoba Vegetariano", price: 35, description: "Sem proteína animal" },
+      { name: "Yakisoba Vegetariano", price: 35, description: "Sem proteína animal", image: "/images/yakisoba-vegetariano.png" },
     ],
   },
   {
