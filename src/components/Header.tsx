@@ -19,6 +19,7 @@ export const Header = ({ searchTerm, onSearchChange }: Props) => {
         src={heroImage}
         alt="Japa Sushi"
         className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: '50% 40%' }}
         width={1920}
         height={1080}
       />
