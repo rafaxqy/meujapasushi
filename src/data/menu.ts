@@ -60,7 +60,7 @@ export const menuData: MenuCategory[] = [
     items: [
       { name: "Temaki Salmão", price: 38, description: "Alga, arroz, salmão cru, cebolinha e cream cheese", image: "/images/temaki-salmao.png" },
       { name: "Temaki Salmão sem Arroz", price: 48, description: "Alga, salmão cru, cebolinha e cream cheese", image: "/images/temaki-salmao.png" },
-      { name: "Temaki Filadélfia sem Arroz", price: 45, description: "Alga, salmão grelhado, cebolinha e cream cheese", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/3fdf6891-45b8-4ff8-af8e-46aa50957d37.png" },
+      { name: "Temaki Filadélfia sem Arroz", price: 45, description: "Alga, salmão grelhado, cebolinha e cream cheese", image: "/images/temaki-filadelfia.png" },
       { name: "Temaki Skin sem Arroz", price: 38, description: "Alga, skin salmão, cebolinha e cream cheese", image: "/images/temaki-skin.png" },
       { name: "Temaki Hot sem Arroz", price: 46, description: "Alga, salmão grelhado, cebolinha, cream cheese, empanado e frito", image: "https://gdoor-product-api-images.s3.sa-east-1.amazonaws.com/de781342-bde6-44d7-be72-446c2db22bb9.png" },
       { name: "Temaki California sem Arroz", price: 40, description: "Alga, manga, pepino e kani", image: "/images/temaki-california.png" },
