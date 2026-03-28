@@ -30,7 +30,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
       >
         {/* Image */}
         {item.image ? (
-          <div className="relative w-full aspect-[4/3] bg-muted overflow-hidden">
+          <div className="relative w-full aspect-[4/3] bg-black overflow-hidden">
             <img
               src={item.image}
               alt={item.name}
