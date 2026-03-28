@@ -30,11 +30,11 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
       >
         {/* Image */}
         {item.image ? (
-          <div className="relative w-full aspect-[4/3] bg-muted overflow-hidden">
+          <div className="relative w-full aspect-[4/3] bg-black overflow-hidden">
             <img
               src={item.image}
               alt={item.name}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 contrast-[1.05] saturate-[1.1]"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 scale-105 contrast-[1.05] saturate-[1.1]"
               loading="lazy"
               style={{ imageRendering: 'auto' }}
             />
