@@ -18,7 +18,7 @@ type AddressData = {
 };
 
 const DELIVERY_FEE = 4;
-const WHATSAPP_NUMBER = "5538998305282";
+const WHATSAPP_NUMBER = "5538998685633";
 
 const SAVED_ADDRESS_KEY = "japa-sushi-address";
 const SAVED_CUSTOMER_KEY = "japa-sushi-customer";
