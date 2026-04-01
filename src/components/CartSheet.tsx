@@ -18,9 +18,7 @@ const OPEN_HOUR = 18;
 const CLOSE_HOUR = 23;
 
 const isStoreOpen = () => {
-  const now = new Date();
-  const hour = now.getHours();
-  return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+  return true;
 };
 
 export const CartSheet = () => {
