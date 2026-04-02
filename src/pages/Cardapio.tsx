@@ -91,7 +91,7 @@ const Cardapio = () => {
   }, [searchTerm, menuData]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Top bar */}
       <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border">
         <div className="mx-auto max-w-4xl flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3">
@@ -143,14 +143,14 @@ const Cardapio = () => {
         />
       )}
 
-      <main className="mx-auto max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
+      <main className="flex-1 flex flex-col mx-auto w-full max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
         {isLoading ? (
           <div className="py-20 text-center text-muted-foreground">
             <p className="text-4xl mb-3 animate-pulse">🍣</p>
             <p className="text-sm">Carregando cardápio...</p>
           </div>
         ) : !storeOpen && !statusLoading ? (
-          <div className="py-24 flex flex-col items-center gap-4 text-center px-4">
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 py-24">
             <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
               <Clock className="h-10 w-10 text-destructive" />
             </div>
