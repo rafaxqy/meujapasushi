@@ -8,7 +8,15 @@ import Home from "./pages/Home";
 import Cardapio from "./pages/Cardapio";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 2 * 60 * 1000,   // dados ficam "frescos" por 2 min
+      refetchOnWindowFocus: false, // não refetch ao focar a janela
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

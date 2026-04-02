@@ -60,7 +60,7 @@ export const Footer = () => {
               <Clock className="h-4 w-4 mt-0.5 shrink-0 text-primary" />
               <div>
                 <p>Terça a Domingo</p>
-                <p>18:00 — 23:00</p>
+                <p>19:00 — 23:30</p>
               </div>
             </div>
           </div>

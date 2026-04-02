@@ -1,7 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Search, X } from "lucide-react";
-import { menuData } from "@/data/menu";
+import { ArrowLeft, Clock, Search, X } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { checkStoreStatus, fetchGroups, fetchMenu } from "@/services/api";
+import { localImageMap } from "@/data/localImages";
+import type { MenuCategory } from "@/data/menu";
 import { CategoryNav } from "@/components/CategoryNav";
 import { MenuItemCard } from "@/components/MenuItemCard";
 import { CartSheet } from "@/components/CartSheet";
@@ -9,10 +12,63 @@ import { Footer } from "@/components/Footer";
 import logoImage from "@/assets/logo-japa-sushi.png";
 
 const Cardapio = () => {
-  const [activeCategory, setActiveCategory] = useState(menuData[0].id);
+  const [activeCategory, setActiveCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const { data: storeStatus, isLoading: statusLoading } = useQuery({
+    queryKey: ["storeStatus"],
+    queryFn: checkStoreStatus,
+    refetchInterval: 60_000,
+  });
+
+  const storeOpen = storeStatus?.open ?? false;
+
+  const { data: groups = [] } = useQuery({
+    queryKey: ["groups"],
+    queryFn: fetchGroups,
+    staleTime: 5 * 60 * 1000,
+    enabled: storeOpen,
+  });
+
+  const { data: apiItems = [], isLoading: menuLoading } = useQuery({
+    queryKey: ["menu"],
+    queryFn: () => fetchMenu(),
+    staleTime: 5 * 60 * 1000,
+    enabled: storeOpen,
+  });
+
+  const isLoading = statusLoading || (storeOpen && menuLoading);
+
+  // Convert API response to MenuCategory[] with local images
+  const menuData = useMemo<MenuCategory[]>(() => {
+    if (!groups.length || !apiItems.length) return [];
+
+    const sortedGroups = [...groups].sort((a, b) => a.ordering - b.ordering);
+
+    const categories = sortedGroups
+      .map((group) => ({
+        id: String(group.id),
+        name: group.name,
+        items: apiItems
+          .filter((item) => item.categoryId === group.id && item.price > 0)
+          .map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            description: item.observation?.trim() || undefined,
+            image: localImageMap[item.id] || item.imageUrl || undefined,
+          })),
+      }))
+      .filter((cat) => cat.items.length > 0);
+
+    return categories;
+  }, [groups, apiItems]);
+
+  // Set initial active category once data loads
+  const firstCategoryId = menuData[0]?.id ?? "";
+  const resolvedActive = activeCategory || firstCategoryId;
 
   const scrollTo = useCallback((id: string) => {
     setActiveCategory(id);
@@ -32,7 +88,7 @@ const Cardapio = () => {
         ),
       }))
       .filter((cat) => cat.items.length > 0);
-  }, [searchTerm]);
+  }, [searchTerm, menuData]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,14 +135,34 @@ const Cardapio = () => {
         </div>
       </header>
 
-      <CategoryNav
-        categories={menuData}
-        activeCategory={activeCategory}
-        onSelect={scrollTo}
-      />
+      {storeOpen && menuData.length > 0 && (
+        <CategoryNav
+          categories={menuData}
+          activeCategory={resolvedActive}
+          onSelect={scrollTo}
+        />
+      )}
 
       <main className="mx-auto max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
-        {filteredData.length === 0 ? (
+        {isLoading ? (
+          <div className="py-20 text-center text-muted-foreground">
+            <p className="text-4xl mb-3 animate-pulse">🍣</p>
+            <p className="text-sm">Carregando cardápio...</p>
+          </div>
+        ) : !storeOpen && !statusLoading ? (
+          <div className="py-24 flex flex-col items-center gap-4 text-center px-4">
+            <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
+              <Clock className="h-10 w-10 text-destructive" />
+            </div>
+            <div className="space-y-1">
+              <h2 className="text-xl font-bold text-foreground">Loja fechada</h2>
+              <p className="text-sm text-muted-foreground">
+                Voltamos em breve! Funcionamos de<br />
+                <span className="font-semibold text-foreground">Terça a Domingo, das 19h às 23h30</span>
+              </p>
+            </div>
+          </div>
+        ) : filteredData.length === 0 ? (
           <div className="py-20 text-center text-muted-foreground">
             <p className="text-4xl mb-3">🔍</p>
             <p className="text-lg font-medium">Nenhum item encontrado</p>
@@ -111,7 +187,7 @@ const Cardapio = () => {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {category.items.map((item) => (
-                  <MenuItemCard key={item.name} item={item} />
+                  <MenuItemCard key={item.id ?? item.name} item={item} />
                 ))}
               </div>
             </section>

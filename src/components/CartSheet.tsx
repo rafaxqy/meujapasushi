@@ -1,6 +1,8 @@
 import { Minus, Plus, ShoppingCart, Trash2, Clock } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { checkStoreStatus } from "@/services/api";
 import { CheckoutFlow } from "@/components/CheckoutFlow";
 import {
   Sheet,
@@ -14,24 +16,18 @@ import { Button } from "@/components/ui/button";
 const formatPrice = (price: number) =>
   price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-const OPEN_HOUR = 18;
-const CLOSE_HOUR = 23;
-
-const isStoreOpen = () => {
-  const hour = new Date().getHours();
-  return hour >= OPEN_HOUR && hour < CLOSE_HOUR;
-};
-
 export const CartSheet = () => {
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCart();
-  const [storeOpen, setStoreOpen] = useState(isStoreOpen());
   const [showCheckout, setShowCheckout] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => setStoreOpen(isStoreOpen()), 60000);
-    return () => clearInterval(interval);
-  }, []);
+  const { data: storeStatus } = useQuery({
+    queryKey: ["storeStatus"],
+    queryFn: checkStoreStatus,
+    refetchInterval: 60_000,
+  });
+
+  const storeOpen = storeStatus?.open ?? false;
 
   // Reset checkout when sheet closes
   useEffect(() => {
@@ -133,7 +129,7 @@ export const CartSheet = () => {
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        Funcionamos das {OPEN_HOUR}h às {CLOSE_HOUR}h
+                        Funcionamos de Terça a Domingo das 19h às 23h30
                       </p>
                     </div>
                   )}

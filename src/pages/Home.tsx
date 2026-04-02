@@ -96,7 +96,7 @@ const Home = () => {
             <Clock className="mx-auto h-8 w-8 text-primary mb-3" />
             <h3 className="font-semibold text-foreground">Horário</h3>
             <p className="mt-1 text-sm text-muted-foreground">Terça a Domingo</p>
-            <p className="text-sm text-muted-foreground">18:00 — 23:00</p>
+            <p className="text-sm text-muted-foreground">19:00 — 23:30</p>
           </motion.div>
 
           <motion.div
