@@ -34,6 +34,8 @@ export const CartSheet = () => {
     if (!open) setShowCheckout(false);
   }, [open]);
 
+  if (!storeOpen) return null;
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
