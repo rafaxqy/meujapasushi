@@ -150,13 +150,14 @@ export type OrderItem = {
 };
 
 export type OrderPayload = {
-  type: "delivery" | "takeaway";
+  type: "delivery";
   customer: {
+    document: string;
     deliveryAddresses: OrderAddress[];
   };
   delivery: {
     valueForChange: number;
-    deliveryMethod: "delivery" | "takeaway";
+    deliveryMethod: "delivery" | "takeout";
     paymentMethod: string;
     deliveryAddress?: OrderAddress;
     deliveryFee: number;

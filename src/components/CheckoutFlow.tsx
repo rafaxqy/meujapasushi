@@ -342,7 +342,7 @@ export const CheckoutFlow = ({ onBack }: Props) => {
         };
         payload = {
           type: "delivery",
-          customer: { deliveryAddresses: [] },
+          customer: { document: "", deliveryAddresses: [] },
           delivery: {
             valueForChange: 0,
             deliveryMethod: "delivery",
@@ -354,11 +354,11 @@ export const CheckoutFlow = ({ onBack }: Props) => {
         };
       } else {
         payload = {
-          type: "takeaway",
-          customer: { deliveryAddresses: [] },
+          type: "delivery",
+          customer: { document: "", deliveryAddresses: [] },
           delivery: {
             valueForChange: 0,
-            deliveryMethod: "takeaway",
+            deliveryMethod: "takeout",
             paymentMethod: PAYMENT_METHODS[payment ?? "pix"] ?? payment ?? "pix",
             deliveryFee: 0,
           },
