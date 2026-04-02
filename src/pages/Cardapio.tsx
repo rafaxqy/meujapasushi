@@ -23,7 +23,7 @@ const Cardapio = () => {
     refetchInterval: 60_000,
   });
 
-  const storeOpen = storeStatus?.open ?? false;
+  const storeOpen = true; // Loja 24h
 
   const { data: groups = [] } = useQuery({
     queryKey: ["groups"],
