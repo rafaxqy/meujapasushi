@@ -27,7 +27,7 @@ export const CartSheet = () => {
     refetchInterval: 60_000,
   });
 
-  const storeOpen = true; // Loja 24h
+  const storeOpen = storeStatus?.open ?? false;
 
   // Reset checkout when sheet closes
   useEffect(() => {
