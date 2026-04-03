@@ -145,8 +145,8 @@ const Cardapio = () => {
 
       <main className="flex-1 flex flex-col mx-auto w-full max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
         {isLoading ? (
-          <div className="py-20 text-center text-muted-foreground">
-            <p className="text-4xl mb-3 animate-pulse">🍣</p>
+          <div className="flex-1 flex flex-col items-center justify-center gap-2 text-muted-foreground">
+            <p className="text-4xl animate-pulse">🍣</p>
             <p className="text-sm">Carregando cardápio...</p>
           </div>
         ) : !storeOpen && !statusLoading ? (
