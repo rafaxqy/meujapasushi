@@ -42,6 +42,19 @@ const formatZip = (zip: string) => {
   return d.length >= 8 ? `${d.slice(0, 5)}-${d.slice(5, 8)}` : d;
 };
 
+const maskMoney = (raw: string) => {
+  const digits = raw.replace(/\D/g, "").slice(0, 8);
+  if (!digits) return "";
+  const n = parseInt(digits, 10) / 100;
+  return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
+const parseMoney = (s: string): number => {
+  const clean = s.replace(/\./g, "").replace(",", ".").replace(/[^\d.]/g, "");
+  const n = parseFloat(clean);
+  return isNaN(n) ? 0 : n;
+};
+
 const flattenDistricts = (cityDistricts: ApiCityDistricts[]): District[] =>
   cityDistricts.flatMap(({ city, state, cityCode, districts }) =>
     districts.flatMap((d) => {
@@ -137,6 +150,10 @@ export const CheckoutFlow = ({ onBack }: Props) => {
   const [authError, setAuthError] = useState("");
   const [awaitingCpf, setAwaitingCpf] = useState(false);
   const [cpf, setCpf] = useState("");
+
+  const [needsChange, setNeedsChange] = useState<boolean | null>(null);
+  const [changeFor, setChangeFor] = useState("");
+  const [itemObservations, setItemObservations] = useState<Record<string, string>>({});
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -288,9 +305,20 @@ export const CheckoutFlow = ({ onBack }: Props) => {
     }
     if (step === "address")
       return !outOfArea && address.rua.trim() !== "" && address.numero.trim() !== "" && address.bairro.trim() !== "";
-    if (step === "payment") return payment !== null;
+    if (step === "payment") {
+      if (payment === null) return false;
+      if (payment === "dinheiro") {
+        if (needsChange === null) return false;
+        if (needsChange && parseMoney(changeFor) < orderTotal) return false;
+      }
+      return true;
+    }
     return true;
   };
+
+  const changeValue = parseMoney(changeFor);
+  const changeInsufficient =
+    payment === "dinheiro" && needsChange === true && changeFor !== "" && changeValue < orderTotal;
 
   const paymentLabel = (p: PaymentMethod) => {
     if (p === "pix") return "PIX";
@@ -315,13 +343,16 @@ export const CheckoutFlow = ({ onBack }: Props) => {
         name: i.name,
         price: i.price,
         quantity: i.quantity,
-        observations: "",
+        observations: (itemObservations[i.name] ?? "").trim(),
         tipPercent: 0,
         additionals: [],
         total: i.price * i.quantity,
         isPizza: false,
         tip: 0,
       }));
+
+      const valueForChange =
+        payment === "dinheiro" && needsChange === true ? parseMoney(changeFor) : 0;
 
       let payload: Parameters<typeof submitOrder>[0];
 
@@ -344,7 +375,7 @@ export const CheckoutFlow = ({ onBack }: Props) => {
           type: "delivery",
           customer: { document: "", deliveryAddresses: [] },
           delivery: {
-            valueForChange: 0,
+            valueForChange,
             deliveryMethod: "delivery",
             paymentMethod: PAYMENT_METHODS[payment ?? "pix"] ?? payment ?? "pix",
             deliveryAddress: addr,
@@ -357,7 +388,7 @@ export const CheckoutFlow = ({ onBack }: Props) => {
           type: "delivery",
           customer: { document: "", deliveryAddresses: [] },
           delivery: {
-            valueForChange: 0,
+            valueForChange,
             deliveryMethod: "takeout",
             paymentMethod: PAYMENT_METHODS[payment ?? "pix"] ?? payment ?? "pix",
             deliveryFee: 0,
@@ -678,13 +709,86 @@ export const CheckoutFlow = ({ onBack }: Props) => {
                     type="radio"
                     name="payment"
                     checked={payment === method}
-                    onChange={() => setPayment(method)}
+                    onChange={() => {
+                      setPayment(method);
+                      if (method !== "dinheiro") {
+                        setNeedsChange(null);
+                        setChangeFor("");
+                      }
+                    }}
                     className="accent-primary"
                   />
                   <span className="font-medium text-foreground">{paymentLabel(method)}</span>
                 </label>
               ))}
             </div>
+
+            {payment === "dinheiro" && (
+              <div className="mt-5 space-y-3">
+                <h4 className="text-sm font-semibold text-foreground">Precisa de troco?</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => { setNeedsChange(false); setChangeFor(""); }}
+                    className={`py-3 rounded-xl border font-medium text-sm transition-colors ${
+                      needsChange === false
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-card text-foreground hover:border-muted-foreground"
+                    }`}
+                  >
+                    Não preciso
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNeedsChange(true)}
+                    className={`py-3 rounded-xl border font-medium text-sm transition-colors ${
+                      needsChange === true
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-card text-foreground hover:border-muted-foreground"
+                    }`}
+                  >
+                    Sim, preciso
+                  </button>
+                </div>
+
+                {needsChange === true && (
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-muted-foreground">
+                      Troco para quanto? (mínimo {formatPrice(orderTotal)})
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                        R$
+                      </span>
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={changeFor}
+                        onChange={(e) => setChangeFor(maskMoney(e.target.value))}
+                        placeholder="0,00"
+                        className={`${inputClass} pl-10`}
+                      />
+                    </div>
+                    {changeInsufficient && (
+                      <div className="flex items-start gap-2 rounded-xl bg-destructive/10 border border-destructive/20 p-3">
+                        <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
+                        <p className="text-xs text-destructive">
+                          O valor precisa ser maior ou igual ao total do pedido ({formatPrice(orderTotal)}).
+                        </p>
+                      </div>
+                    )}
+                    {changeFor !== "" && !changeInsufficient && changeValue > orderTotal && (
+                      <p className="text-xs text-muted-foreground px-1">
+                        Troco:{" "}
+                        <span className="text-primary font-semibold">
+                          {formatPrice(changeValue - orderTotal)}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
@@ -693,11 +797,23 @@ export const CheckoutFlow = ({ onBack }: Props) => {
           <div className="space-y-4">
             <div>
               <h3 className="text-sm font-semibold text-foreground mb-2">Itens do pedido</h3>
-              <div className="rounded-xl border border-border bg-card p-3 space-y-2">
+              <div className="rounded-xl border border-border bg-card p-3 space-y-3">
                 {items.map((item) => (
-                  <div key={item.name} className="flex justify-between text-sm">
-                    <span className="text-foreground">{item.quantity}x {item.name}</span>
-                    <span className="text-foreground font-medium">{formatPrice(item.price * item.quantity)}</span>
+                  <div key={item.name} className="space-y-1.5">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-foreground">{item.quantity}x {item.name}</span>
+                      <span className="text-foreground font-medium">{formatPrice(item.price * item.quantity)}</span>
+                    </div>
+                    <input
+                      type="text"
+                      value={itemObservations[item.name] ?? ""}
+                      onChange={(e) =>
+                        setItemObservations((prev) => ({ ...prev, [item.name]: e.target.value }))
+                      }
+                      placeholder="Observação (opcional) — ex: sem cebola"
+                      maxLength={200}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+                    />
                   </div>
                 ))}
               </div>
@@ -744,8 +860,19 @@ export const CheckoutFlow = ({ onBack }: Props) => {
             )}
             <div>
               <h3 className="text-sm font-semibold text-foreground mb-2">Pagamento</h3>
-              <div className="rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground">
-                {paymentLabel(payment)}
+              <div className="rounded-xl border border-border bg-card p-3 text-sm text-muted-foreground space-y-0.5">
+                <p className="text-foreground font-medium">{paymentLabel(payment)}</p>
+                {payment === "dinheiro" && needsChange === false && (
+                  <p className="text-xs">Sem troco</p>
+                )}
+                {payment === "dinheiro" && needsChange === true && (
+                  <p className="text-xs">
+                    Troco para {formatPrice(changeValue)} · devolver{" "}
+                    <span className="font-semibold text-primary">
+                      {formatPrice(changeValue - orderTotal)}
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
             <div>

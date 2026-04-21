@@ -1,10 +1,97 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, Search, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { checkStoreStatus, fetchGroups, fetchMenu } from "@/services/api";
+import { checkStoreStatus, fetchGroups, streamMenu, type ApiMenuItem } from "@/services/api";
 import { localImageMap } from "@/data/localImages";
-import type { MenuCategory } from "@/data/menu";
+import type { MenuCategory, MenuItem, MenuVariant } from "@/data/menu";
+
+const QTY_IN_NAME_RE =
+  /^(.*?)[\s(]*(\d+)\s*(PEÇAS?|PÇS|UNIDADES?|UNI|UN)\s*\)?\s*$/i;
+const SIZE_RE = /\b(INTEIRA|MEIA)\b/i;
+const QTY_IN_DESC_RE = /(\d+)\s*(UNIDADES?|PEÇAS?|UN|PÇS)\b/i;
+
+type ParsedVariant =
+  | { kind: "qty"; base: string; qty: number }
+  | { kind: "size"; base: string; size: "Inteira" | "Meia" };
+
+const parseVariant = (name: string): ParsedVariant | null => {
+  const q = name.match(QTY_IN_NAME_RE);
+  if (q) {
+    const base = q[1].replace(/[\s(]+$/, "").trim();
+    const qty = parseInt(q[2], 10);
+    if (base && qty) return { kind: "qty", base, qty };
+  }
+
+  const s = name.match(SIZE_RE);
+  if (s) {
+    const size = s[1].toUpperCase() === "INTEIRA" ? "Inteira" : "Meia";
+    const base = name
+      .replace(SIZE_RE, "")
+      .replace(/\s*\/\s*/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (base) return { kind: "size", base, size };
+  }
+
+  return null;
+};
+
+const extractQtyFromDesc = (desc?: string): number | null => {
+  if (!desc) return null;
+  const m = desc.match(QTY_IN_DESC_RE);
+  return m ? parseInt(m[1], 10) : null;
+};
+
+const buildLabel = (p: ParsedVariant, desc?: string): string => {
+  if (p.kind === "qty") return p.qty === 1 ? "1 peça" : `${p.qty} peças`;
+  const descQty = extractQtyFromDesc(desc);
+  return descQty ? `${p.size} · ${descQty} un.` : p.size;
+};
+
+const groupVariants = (items: MenuItem[]): MenuItem[] => {
+  const buckets = new Map<string, MenuItem[]>();
+  const order: string[] = [];
+
+  for (const item of items) {
+    const parsed = parseVariant(item.name);
+    const key = parsed
+      ? `${parsed.kind}:${parsed.base.toUpperCase()}`
+      : `solo:${item.id}`;
+    if (!buckets.has(key)) {
+      buckets.set(key, []);
+      order.push(key);
+    }
+    buckets.get(key)!.push(item);
+  }
+
+  return order.map((key) => {
+    const bucket = buckets.get(key)!;
+    if (bucket.length < 2) return bucket[0];
+
+    const sorted = [...bucket].sort((a, b) => a.price - b.price);
+    const base = parseVariant(sorted[0].name)!.base;
+
+    const variants: MenuVariant[] = sorted.map((v) => ({
+      id: v.id!,
+      label: buildLabel(parseVariant(v.name)!, v.description),
+      fullName: v.name,
+      price: v.price,
+    }));
+
+    const withImage = sorted.find((v) => v.image) ?? sorted[0];
+    const withDesc = sorted.find((v) => v.description) ?? sorted[0];
+
+    return {
+      id: sorted[0].id,
+      name: base,
+      price: variants[0].price,
+      description: withDesc.description,
+      image: withImage.image,
+      variants,
+    };
+  });
+};
 import { CategoryNav } from "@/components/CategoryNav";
 import { MenuItemCard } from "@/components/MenuItemCard";
 import { CartSheet } from "@/components/CartSheet";
@@ -32,14 +119,31 @@ const Cardapio = () => {
     enabled: storeOpen,
   });
 
-  const { data: apiItems = [], isLoading: menuLoading } = useQuery({
-    queryKey: ["menu"],
-    queryFn: () => fetchMenu(),
-    staleTime: 5 * 60 * 1000,
-    enabled: storeOpen,
-  });
+  const [apiItems, setApiItems] = useState<ApiMenuItem[]>([]);
+  const [hasFirstPage, setHasFirstPage] = useState(false);
 
-  const isLoading = statusLoading || (storeOpen && menuLoading);
+  useEffect(() => {
+    if (!storeOpen) return;
+    const ac = new AbortController();
+    setApiItems([]);
+    setHasFirstPage(false);
+
+    streamMenu(
+      (batch) => {
+        if (ac.signal.aborted) return;
+        setApiItems((prev) => {
+          const seen = new Set(prev.map((i) => i.id));
+          return [...prev, ...batch.filter((i) => !seen.has(i.id))];
+        });
+        setHasFirstPage(true);
+      },
+      { signal: ac.signal }
+    ).catch(() => {});
+
+    return () => ac.abort();
+  }, [storeOpen]);
+
+  const isLoading = statusLoading || (storeOpen && !hasFirstPage);
 
   // Convert API response to MenuCategory[] with local images
   const menuData = useMemo<MenuCategory[]>(() => {
@@ -48,10 +152,8 @@ const Cardapio = () => {
     const sortedGroups = [...groups].sort((a, b) => a.ordering - b.ordering);
 
     const categories = sortedGroups
-      .map((group) => ({
-        id: String(group.id),
-        name: group.name,
-        items: apiItems
+      .map((group) => {
+        const items: MenuItem[] = apiItems
           .filter((item) => item.categoryId === group.id && item.price > 0)
           .map((item) => ({
             id: item.id,
@@ -59,8 +161,13 @@ const Cardapio = () => {
             price: item.price,
             description: item.observation?.trim() || undefined,
             image: localImageMap[item.id] || item.imageUrl || undefined,
-          })),
-      }))
+          }));
+        return {
+          id: String(group.id),
+          name: group.name,
+          items: groupVariants(items),
+        };
+      })
       .filter((cat) => cat.items.length > 0);
 
     return categories;

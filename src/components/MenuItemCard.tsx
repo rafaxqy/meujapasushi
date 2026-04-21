@@ -1,6 +1,6 @@
-import { Plus, Check, X } from "lucide-react";
+import { Plus, Check, X, ImageOff } from "lucide-react";
 import { useState } from "react";
-import type { MenuItem } from "@/data/menu";
+import type { MenuItem, MenuVariant } from "@/data/menu";
 import { useCart } from "@/contexts/CartContext";
 
 const formatPrice = (price: number) =>
@@ -9,10 +9,17 @@ const formatPrice = (price: number) =>
 export const MenuItemCard = ({ item }: { item: MenuItem }) => {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+  const [addedVariantId, setAddedVariantId] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const hasVariants = !!(item.variants && item.variants.length > 0);
 
   const handleAdd = (e?: React.MouseEvent, closeAfter = false) => {
     e?.stopPropagation();
+    if (hasVariants) {
+      setModalOpen(true);
+      return;
+    }
     addItem(item);
     setAdded(true);
     if (closeAfter) {
@@ -20,6 +27,19 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
     } else {
       setTimeout(() => setAdded(false), 800);
     }
+  };
+
+  const handleAddVariant = (variant: MenuVariant, e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem({
+      id: variant.id,
+      name: variant.fullName,
+      price: variant.price,
+      description: item.description,
+      image: item.image,
+    });
+    setAddedVariantId(variant.id);
+    setTimeout(() => setAddedVariantId(null), 800);
   };
 
   return (
@@ -30,7 +50,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
       >
         {/* Image */}
         {item.image ? (
-          <div className="relative w-full aspect-[4/3] bg-black overflow-hidden">
+          <div className="relative w-full aspect-[4/3] bg-muted overflow-hidden">
             <img
               src={item.image}
               alt={item.name}
@@ -42,8 +62,9 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           </div>
         ) : (
-          <div className="w-full aspect-[4/3] bg-muted flex items-center justify-center">
-            <span className="text-3xl opacity-30">🍣</span>
+          <div className="w-full aspect-[4/3] bg-muted flex flex-col items-center justify-center gap-1.5 text-muted-foreground/60">
+            <ImageOff className="h-7 w-7" />
+            <span className="text-[11px] font-medium uppercase tracking-wider">Sem imagem</span>
           </div>
         )}
 
@@ -71,6 +92,11 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
             </p>
           )}
           <span className="inline-block mt-2 text-base font-bold text-primary">
+            {hasVariants && (
+              <span className="text-[10px] font-normal text-muted-foreground uppercase tracking-wider mr-1">
+                A partir de
+              </span>
+            )}
             {formatPrice(item.price)}
           </span>
         </div>
@@ -93,7 +119,7 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
               <X className="h-4 w-4" />
             </button>
 
-            {item.image && (
+            {item.image ? (
               <div className="w-full aspect-[4/3] bg-muted overflow-hidden">
                 <img
                   src={item.image}
@@ -101,6 +127,11 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
                   className="w-full h-full object-cover contrast-[1.08] saturate-[1.15] brightness-[1.02]"
                   style={{ imageRendering: 'auto' }}
                 />
+              </div>
+            ) : (
+              <div className="w-full aspect-[4/3] bg-muted flex flex-col items-center justify-center gap-2 text-muted-foreground/60">
+                <ImageOff className="h-10 w-10" />
+                <span className="text-xs font-medium uppercase tracking-wider">Sem imagem</span>
               </div>
             )}
 
@@ -113,29 +144,75 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
                   {item.description}
                 </p>
               )}
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-lg font-bold text-primary">
-                  {formatPrice(item.price)}
-                </span>
-                <button
-                  onClick={(e) => handleAdd(e, true)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-200 ${
-                    added
-                      ? "bg-green-600 text-white scale-105"
-                      : "bg-primary text-primary-foreground hover:opacity-90"
-                  }`}
-                >
-                  {added ? (
-                    <>
-                      <Check className="h-4 w-4" /> Adicionado
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="h-4 w-4" /> Adicionar
-                    </>
-                  )}
-                </button>
-              </div>
+              {hasVariants ? (
+                <div className="space-y-2 pt-1">
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Escolha a quantidade
+                  </p>
+                  <div className="space-y-2">
+                    {item.variants!.map((v) => {
+                      const isAdded = addedVariantId === v.id;
+                      return (
+                        <button
+                          key={v.id}
+                          onClick={(e) => handleAddVariant(v, e)}
+                          className={`w-full flex items-center justify-between gap-3 rounded-xl border px-4 py-3 transition-all duration-200 ${
+                            isAdded
+                              ? "border-green-600 bg-green-600/10"
+                              : "border-border bg-card hover:border-primary/40 hover:bg-secondary/50"
+                          }`}
+                        >
+                          <span className="text-sm font-medium text-foreground">
+                            {v.label}
+                          </span>
+                          <span className="flex items-center gap-3">
+                            <span className="text-base font-bold text-primary">
+                              {formatPrice(v.price)}
+                            </span>
+                            <span
+                              className={`h-7 w-7 rounded-full flex items-center justify-center transition-colors ${
+                                isAdded
+                                  ? "bg-green-600 text-white"
+                                  : "bg-primary text-primary-foreground"
+                              }`}
+                            >
+                              {isAdded ? (
+                                <Check className="h-3.5 w-3.5" />
+                              ) : (
+                                <Plus className="h-3.5 w-3.5" />
+                              )}
+                            </span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-lg font-bold text-primary">
+                    {formatPrice(item.price)}
+                  </span>
+                  <button
+                    onClick={(e) => handleAdd(e, true)}
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-200 ${
+                      added
+                        ? "bg-green-600 text-white scale-105"
+                        : "bg-primary text-primary-foreground hover:opacity-90"
+                    }`}
+                  >
+                    {added ? (
+                      <>
+                        <Check className="h-4 w-4" /> Adicionado
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="h-4 w-4" /> Adicionar
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

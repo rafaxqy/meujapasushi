@@ -39,28 +39,46 @@ export type ApiMenuItem = {
   categoryId: number;
 };
 
-export type ApiProduct = {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  additionalGroups: unknown[];
-};
-
-export const checkSystemStatus = () =>
-  apiFetch<{ online: boolean }>("/system-status");
-
 export const checkStoreStatus = () =>
   apiFetch<{ open: boolean }>("/status");
 
 export const fetchGroups = () =>
   apiFetch<ApiGroup[]>("/groups");
 
-export const fetchMenu = (page = 1, size = 200) =>
-  apiFetch<ApiMenuItem[]>(`/menu?page=${page}&size=${size}`);
+export const streamMenu = async (
+  onBatch: (batch: ApiMenuItem[]) => void,
+  opts: { size?: number; maxPages?: number; signal?: AbortSignal } = {}
+): Promise<void> => {
+  const size = opts.size ?? 25;
+  const maxPages = opts.maxPages ?? 5;
+  const { signal } = opts;
 
-export const fetchProduct = (id: number) =>
-  apiFetch<ApiProduct>(`/products/${id}`);
+  const getPage = async (page: number): Promise<ApiMenuItem[]> => {
+    const res = await fetch(
+      `${BASE_URL}/establishments/${ESTABLISHMENT_ID}/menu?page=${page}&size=${size}`,
+      { headers: API_HEADERS, signal }
+    );
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    return res.json() as Promise<ApiMenuItem[]>;
+  };
+
+  const first = await getPage(1);
+  if (signal?.aborted) return;
+  onBatch(first);
+  if (first.length < size) return;
+
+  const rest: Promise<void>[] = [];
+  for (let p = 2; p <= maxPages; p++) {
+    rest.push(
+      getPage(p)
+        .then((batch) => {
+          if (!signal?.aborted && batch.length) onBatch(batch);
+        })
+        .catch(() => {})
+    );
+  }
+  await Promise.all(rest);
+};
 
 export type SignupResult = {
   isNewUser: boolean;
