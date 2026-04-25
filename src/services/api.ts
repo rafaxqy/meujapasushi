@@ -50,7 +50,7 @@ export const streamMenu = async (
   opts: { size?: number; maxPages?: number; signal?: AbortSignal } = {}
 ): Promise<void> => {
   const size = opts.size ?? 25;
-  const maxPages = opts.maxPages ?? 5;
+  const maxPages = opts.maxPages ?? 3;
   const { signal } = opts;
 
   const getPage = async (page: number): Promise<ApiMenuItem[]> => {

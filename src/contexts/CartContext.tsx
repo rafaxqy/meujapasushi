@@ -1,13 +1,14 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { MenuItem } from "@/data/menu";
 
-export type CartItem = MenuItem & { quantity: number };
+export type CartItem = MenuItem & { quantity: number; observations?: string };
 
 type CartContextType = {
   items: CartItem[];
-  addItem: (item: MenuItem) => void;
+  addItem: (item: MenuItem, observations?: string) => void;
   removeItem: (name: string) => void;
   updateQuantity: (name: string, qty: number) => void;
+  updateObservations: (name: string, observations: string) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -24,16 +25,30 @@ export const useCart = () => {
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addItem = useCallback((item: MenuItem) => {
+  const addItem = useCallback((item: MenuItem, observations?: string) => {
+    const trimmed = observations?.trim() || undefined;
     setItems((prev) => {
       const existing = prev.find((i) => i.name === item.name);
       if (existing) {
         return prev.map((i) =>
-          i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i
+          i.name === item.name
+            ? {
+                ...i,
+                quantity: i.quantity + 1,
+                observations: trimmed ?? i.observations,
+              }
+            : i
         );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, { ...item, quantity: 1, observations: trimmed }];
     });
+  }, []);
+
+  const updateObservations = useCallback((name: string, observations: string) => {
+    const trimmed = observations.trim() || undefined;
+    setItems((prev) =>
+      prev.map((i) => (i.name === name ? { ...i, observations: trimmed } : i))
+    );
   }, []);
 
   const removeItem = useCallback((name: string) => {
@@ -57,7 +72,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice }}
+      value={{ items, addItem, removeItem, updateQuantity, updateObservations, clearCart, totalItems, totalPrice }}
     >
       {children}
     </CartContext.Provider>

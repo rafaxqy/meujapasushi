@@ -49,6 +49,38 @@ const buildLabel = (p: ParsedVariant, desc?: string): string => {
   return descQty ? `${p.size} · ${descQty} un.` : p.size;
 };
 
+const SEM_ARROZ_RE = /\s+SEM\s+ARROZ\s*$/i;
+const baseWithoutSemArroz = (name: string) =>
+  name.replace(SEM_ARROZ_RE, "").trim().toUpperCase();
+
+const reorderSemArroz = (items: MenuItem[]): MenuItem[] => {
+  const regulars: MenuItem[] = [];
+  const semArrozByBase = new Map<string, MenuItem[]>();
+
+  for (const item of items) {
+    if (SEM_ARROZ_RE.test(item.name)) {
+      const base = baseWithoutSemArroz(item.name);
+      if (!semArrozByBase.has(base)) semArrozByBase.set(base, []);
+      semArrozByBase.get(base)!.push(item);
+    } else {
+      regulars.push(item);
+    }
+  }
+
+  const result: MenuItem[] = [];
+  for (const item of regulars) {
+    result.push(item);
+    const base = baseWithoutSemArroz(item.name);
+    const matches = semArrozByBase.get(base);
+    if (matches) {
+      result.push(...matches);
+      semArrozByBase.delete(base);
+    }
+  }
+  for (const remaining of semArrozByBase.values()) result.push(...remaining);
+  return result;
+};
+
 const groupVariants = (items: MenuItem[]): MenuItem[] => {
   const buckets = new Map<string, MenuItem[]>();
   const order: string[] = [];
@@ -77,6 +109,7 @@ const groupVariants = (items: MenuItem[]): MenuItem[] => {
       label: buildLabel(parseVariant(v.name)!, v.description),
       fullName: v.name,
       price: v.price,
+      description: v.description,
     }));
 
     const withImage = sorted.find((v) => v.image) ?? sorted[0];
@@ -110,20 +143,18 @@ const Cardapio = () => {
     refetchInterval: 60_000,
   });
 
-  const storeOpen = true; // Loja 24h (temporário para alterações)
+  const storeOpen = storeStatus?.open ?? false;
 
   const { data: groups = [] } = useQuery({
     queryKey: ["groups"],
     queryFn: fetchGroups,
     staleTime: 5 * 60 * 1000,
-    enabled: storeOpen,
   });
 
   const [apiItems, setApiItems] = useState<ApiMenuItem[]>([]);
   const [hasFirstPage, setHasFirstPage] = useState(false);
 
   useEffect(() => {
-    if (!storeOpen) return;
     const ac = new AbortController();
     setApiItems([]);
     setHasFirstPage(false);
@@ -141,9 +172,9 @@ const Cardapio = () => {
     ).catch(() => {});
 
     return () => ac.abort();
-  }, [storeOpen]);
+  }, []);
 
-  const isLoading = statusLoading || (storeOpen && !hasFirstPage);
+  const isLoading = statusLoading || !hasFirstPage;
 
   // Convert API response to MenuCategory[] with local images
   const menuData = useMemo<MenuCategory[]>(() => {
@@ -165,7 +196,7 @@ const Cardapio = () => {
         return {
           id: String(group.id),
           name: group.name,
-          items: groupVariants(items),
+          items: reorderSemArroz(groupVariants(items)),
         };
       })
       .filter((cat) => cat.items.length > 0);
@@ -242,7 +273,20 @@ const Cardapio = () => {
         </div>
       </header>
 
-      {storeOpen && menuData.length > 0 && (
+      {!storeOpen && !statusLoading && (
+        <div className="bg-destructive/10 border-b border-destructive/20">
+          <div className="mx-auto max-w-4xl px-3 sm:px-4 py-2.5 flex items-center gap-2.5 text-destructive">
+            <Clock className="h-4 w-4 flex-shrink-0" />
+            <p className="text-xs sm:text-sm font-medium">
+              <span className="font-semibold">Loja fechada</span>
+              <span className="hidden sm:inline"> — Voltamos de Terça a Domingo das 19h às 23h30.</span>
+              <span className="sm:hidden"> — pedidos indisponíveis</span>
+            </p>
+          </div>
+        </div>
+      )}
+
+      {menuData.length > 0 && (
         <CategoryNav
           categories={menuData}
           activeCategory={resolvedActive}
@@ -255,19 +299,6 @@ const Cardapio = () => {
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-muted-foreground">
             <p className="text-4xl animate-pulse">🍣</p>
             <p className="text-sm">Carregando cardápio...</p>
-          </div>
-        ) : !storeOpen && !statusLoading ? (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 py-24">
-            <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center">
-              <Clock className="h-10 w-10 text-destructive" />
-            </div>
-            <div className="space-y-1">
-              <h2 className="text-xl font-bold text-foreground">Loja fechada</h2>
-              <p className="text-sm text-muted-foreground">
-                Voltamos em breve! Funcionamos de<br />
-                <span className="font-semibold text-foreground">Terça a Domingo, das 19h às 23h30</span>
-              </p>
-            </div>
           </div>
         ) : filteredData.length === 0 ? (
           <div className="py-20 text-center text-muted-foreground">

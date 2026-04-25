@@ -27,7 +27,7 @@ export const CartSheet = () => {
     refetchInterval: 60_000,
   });
 
-  const storeOpen = true; // Loja 24h (temporário para alterações)
+  const storeOpen = storeStatus?.open ?? false;
 
   // Reset checkout when sheet closes
   useEffect(() => {
@@ -81,6 +81,11 @@ export const CartSheet = () => {
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{item.name}</p>
+                        {item.observations && (
+                          <p className="text-[11px] text-muted-foreground italic truncate mt-0.5">
+                            Obs: {item.observations}
+                          </p>
+                        )}
                         <p className="text-xs text-primary font-semibold mt-0.5">
                           {formatPrice(item.price * item.quantity)}
                         </p>

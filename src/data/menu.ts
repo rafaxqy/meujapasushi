@@ -3,6 +3,7 @@ export type MenuVariant = {
   label: string;
   fullName: string;
   price: number;
+  description?: string;
 };
 
 export type MenuItem = {

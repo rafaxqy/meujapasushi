@@ -153,7 +153,6 @@ export const CheckoutFlow = ({ onBack }: Props) => {
 
   const [needsChange, setNeedsChange] = useState<boolean | null>(null);
   const [changeFor, setChangeFor] = useState("");
-  const [itemObservations, setItemObservations] = useState<Record<string, string>>({});
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -343,7 +342,7 @@ export const CheckoutFlow = ({ onBack }: Props) => {
         name: i.name,
         price: i.price,
         quantity: i.quantity,
-        observations: (itemObservations[i.name] ?? "").trim(),
+        observations: (i.observations ?? "").trim(),
         tipPercent: 0,
         additionals: [],
         total: i.price * i.quantity,
@@ -799,21 +798,16 @@ export const CheckoutFlow = ({ onBack }: Props) => {
               <h3 className="text-sm font-semibold text-foreground mb-2">Itens do pedido</h3>
               <div className="rounded-xl border border-border bg-card p-3 space-y-3">
                 {items.map((item) => (
-                  <div key={item.name} className="space-y-1.5">
+                  <div key={item.name} className="space-y-1">
                     <div className="flex justify-between text-sm">
                       <span className="text-foreground">{item.quantity}x {item.name}</span>
                       <span className="text-foreground font-medium">{formatPrice(item.price * item.quantity)}</span>
                     </div>
-                    <input
-                      type="text"
-                      value={itemObservations[item.name] ?? ""}
-                      onChange={(e) =>
-                        setItemObservations((prev) => ({ ...prev, [item.name]: e.target.value }))
-                      }
-                      placeholder="Observação (opcional) — ex: sem cebola"
-                      maxLength={200}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
-                    />
+                    {item.observations && (
+                      <p className="text-xs text-muted-foreground italic pl-1">
+                        Obs: {item.observations}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
