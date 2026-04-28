@@ -81,6 +81,13 @@ const reorderSemArroz = (items: MenuItem[]): MenuItem[] => {
   return result;
 };
 
+const COMBO_PART_RE = /^\d+\s+/;
+const hasComboDescription = (desc?: string): boolean => {
+  if (!desc) return false;
+  const parts = desc.split(/[,;]/).map((s) => s.replace(/\.$/, "").trim()).filter(Boolean);
+  return parts.length >= 3 && parts.every((p) => COMBO_PART_RE.test(p));
+};
+
 const groupVariants = (items: MenuItem[]): MenuItem[] => {
   const buckets = new Map<string, MenuItem[]>();
   const order: string[] = [];
@@ -97,9 +104,12 @@ const groupVariants = (items: MenuItem[]): MenuItem[] => {
     buckets.get(key)!.push(item);
   }
 
-  return order.map((key) => {
+  return order.flatMap((key) => {
     const bucket = buckets.get(key)!;
-    if (bucket.length < 2) return bucket[0];
+    if (bucket.length < 2) return [bucket[0]];
+
+    // Combos com descrições individuais viram cards separados
+    if (bucket.some((item) => hasComboDescription(item.description))) return bucket;
 
     const sorted = [...bucket].sort((a, b) => a.price - b.price);
     const base = parseVariant(sorted[0].name)!.base;
@@ -115,14 +125,14 @@ const groupVariants = (items: MenuItem[]): MenuItem[] => {
     const withImage = sorted.find((v) => v.image) ?? sorted[0];
     const withDesc = sorted.find((v) => v.description) ?? sorted[0];
 
-    return {
+    return [{
       id: sorted[0].id,
       name: base,
       price: variants[0].price,
       description: withDesc.description,
       image: withImage.image,
       variants,
-    };
+    }];
   });
 };
 import { CategoryNav } from "@/components/CategoryNav";
@@ -130,6 +140,7 @@ import { MenuItemCard } from "@/components/MenuItemCard";
 import { CartSheet } from "@/components/CartSheet";
 import { Footer } from "@/components/Footer";
 import logoImage from "@/assets/logo-japa-sushi.png";
+import heroImage from "@/assets/hero-sushi.jpg";
 
 const Cardapio = () => {
   const [activeCategory, setActiveCategory] = useState("");
@@ -153,11 +164,13 @@ const Cardapio = () => {
 
   const [apiItems, setApiItems] = useState<ApiMenuItem[]>([]);
   const [hasFirstPage, setHasFirstPage] = useState(false);
+  const [menuError, setMenuError] = useState(false);
 
   useEffect(() => {
     const ac = new AbortController();
     setApiItems([]);
     setHasFirstPage(false);
+    setMenuError(false);
 
     streamMenu(
       (batch) => {
@@ -169,7 +182,9 @@ const Cardapio = () => {
         setHasFirstPage(true);
       },
       { signal: ac.signal }
-    ).catch(() => {});
+    ).catch(() => {
+      if (!ac.signal.aborted) setMenuError(true);
+    });
 
     return () => ac.abort();
   }, []);
@@ -192,7 +207,8 @@ const Cardapio = () => {
             price: item.price,
             description: item.observation?.trim() || undefined,
             image: localImageMap[item.id] || item.imageUrl || undefined,
-          }));
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }));
         return {
           id: String(group.id),
           name: group.name,
@@ -244,7 +260,7 @@ const Cardapio = () => {
           </div>
           <h1 className="text-lg font-semibold text-foreground flex-1">Cardápio</h1>
 
-          {searchOpen ? (
+          {!menuError && (searchOpen ? (
             <div className="relative flex-1 max-w-xs animate-in fade-in duration-200">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
@@ -269,7 +285,7 @@ const Cardapio = () => {
             >
               <Search className="h-4 w-4" />
             </button>
-          )}
+          ))}
         </div>
       </header>
 
@@ -295,7 +311,26 @@ const Cardapio = () => {
       )}
 
       <main className="flex-1 flex flex-col mx-auto w-full max-w-4xl px-3 sm:px-4 py-4 sm:py-6 pb-28">
-        {isLoading ? (
+        {menuError ? (
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-border">
+              <img
+                src={heroImage}
+                alt="Loja fechada"
+                className="w-full h-52 object-cover brightness-50"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+                <div className="h-14 w-14 rounded-full overflow-hidden bg-white p-1 shadow-lg">
+                  <img src={logoImage} alt="Logo" className="h-full w-full object-contain" />
+                </div>
+                <p className="text-white text-xl font-bold tracking-wide">Loja Fechada</p>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  No momento não estamos aceitando pedidos. Voltamos de Terça a Domingo das 19h às 23h30.
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : isLoading ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-2 text-muted-foreground">
             <p className="text-4xl animate-pulse">🍣</p>
             <p className="text-sm">Carregando cardápio...</p>

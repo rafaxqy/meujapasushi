@@ -131,11 +131,11 @@ export const MenuItemCard = ({ item }: { item: MenuItem }) => {
             {item.name}
           </h3>
           {item.description && (
-            <p className="mt-1 text-xs text-muted-foreground line-clamp-2 flex-1">
+            <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
               {item.description}
             </p>
           )}
-          <span className="inline-block mt-2 text-base font-bold text-primary">
+          <span className="inline-block mt-auto pt-2 text-base font-bold text-primary">
             {hasVariants && (
               <span className="text-[10px] font-normal text-muted-foreground uppercase tracking-wider mr-1">
                 A partir de
