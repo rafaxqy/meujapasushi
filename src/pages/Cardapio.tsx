@@ -208,7 +208,7 @@ const Cardapio = () => {
             description: item.observation?.trim() || undefined,
             image: localImageMap[item.id] || item.imageUrl || undefined,
           }))
-          .sort((a, b) => a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" }));
+          .sort((a, b) => a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base", numeric: true }));
         return {
           id: String(group.id),
           name: group.name,
