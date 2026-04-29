@@ -1,9 +1,9 @@
 export const localImageMap: Record<number, string> = {
   // Bebidas e itens diversos (mantidos)
-  88: "/images/suco-maracuja.jpg",
-  141: "/images/suco-limao.jpg",
-  142: "/images/suco-laranja.jpg",
-  143: "/images/suco-abacaxi.jpg",
+  88: "/images/novas-img/maracuja.png",
+  141: "/images/novas-img/limao.png",
+  142: "/images/novas-img/laranja.png",
+  143: "/images/novas-img/abacaxi.png",
   85: "/images/agua-mineral.jpg",
   86: "/images/agua-gas.jpg",
   87: "/images/novas-img/limoneto.jpeg",
