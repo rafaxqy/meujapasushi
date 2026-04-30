@@ -25,7 +25,7 @@ export const localImageMap: Record<number, string> = {
   7: "/images/bolinho-arroz.png",
   8: "/images/bolinho-salmao.png",
   15: "/images/novas-img/canape-salmao.png",
-  149: "/images/novas-img/CANEPE 4 UN SALMAO GRELHADO.png",
+  149: "/images/novas-img/canape-salmao.png",
   1: "/images/ceviche.png",
   2: "/images/ceviche.png",
   16: "/images/temaki-salmao.png",
