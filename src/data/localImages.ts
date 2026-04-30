@@ -22,6 +22,7 @@ export const localImageMap: Record<number, string> = {
   // Itens existentes (mantidos)
   154: "/images/bolinho-arroz.png",
   12: "imagens/novas-img/teppan de salmao.png",
+  13: "imagens/novas-img/teppan de salmao.png",
   155: "/images/bolinho-salmao.png",
   7: "/images/bolinho-arroz.png",
   8: "/images/bolinho-salmao.png",
@@ -130,8 +131,8 @@ export const localImageMap: Record<number, string> = {
   6: "/images/novas-img/yakisoba camarao.png",
 
   // Sashimi Simples
-  47: "/images/novas-img/sashimi simples.png",
-  48: "/images/novas-img/sashimi simples.png",
+  47: "/images/novas-img/sashimi.png",
+  48: "/images/novas-img/sashimi.png",
 
   // Baterá
   42: "/images/novas-img/batera.png",
