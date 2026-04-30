@@ -21,6 +21,7 @@ export const localImageMap: Record<number, string> = {
 
   // Itens existentes (mantidos)
   154: "/images/bolinho-arroz.png",
+  12: "imagens/novas-img/teppan de salmao.png",
   155: "/images/bolinho-salmao.png",
   7: "/images/bolinho-arroz.png",
   8: "/images/bolinho-salmao.png",
