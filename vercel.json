@@ -1,13 +1,5 @@
 {
-  "headers": [
-    {
-      "source": "/images/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-cache, must-revalidate"
-        }
-      ]
-    }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
