@@ -20,11 +20,11 @@ export const localImageMap: Record<number, string> = {
   98: "/images/heineken.jpg",
 
   // Itens existentes (mantidos)
-  154: "/images/bolinho-arroz.png",
+  154: "/images/bolinho-salmao.png",
   12: "/images/novas-img/teppan de salmao.png",
   13: "/images/novas-img/teppan de salmao.png",
   155: "/images/bolinho-salmao.png",
-  7: "/images/bolinho-arroz.png",
+  7: "/images/bolinho-salmao.png",
   8: "/images/bolinho-salmao.png",
   15: "/images/novas-img/canape-salmao.png",
   149: "/images/novas-img/canape-salmao.png",
