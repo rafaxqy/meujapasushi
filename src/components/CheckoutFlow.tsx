@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import {
   ArrowLeft, MapPin, CreditCard, User, Send,
-  Truck, Store, Loader2, AlertTriangle, CheckCircle2, Home,
+  Truck, Store, Loader2, AlertTriangle, CheckCircle2, Home, MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,14 @@ import {
   findDistrict, normalizeStr, VALID_CITIES, CITY_CODES,
   type District,
 } from "@/data/deliveryDistricts";
+
+// Número do WhatsApp da GDOOR que envia as atualizações de status do pedido
+const ORDER_TRACKING_WHATSAPP = "5538997546470";
+
+const buildTrackingUrl = (orderId: string | number) =>
+  `https://api.whatsapp.com/send/?phone=${ORDER_TRACKING_WHATSAPP}&text=${encodeURIComponent(
+    `Olá! Quero receber atualizações do meu pedido #${orderId}`
+  )}&type=phone_number&app_absent=0`;
 
 const formatPrice = (price: number) =>
   price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -157,6 +165,13 @@ export const CheckoutFlow = ({ onBack }: Props) => {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [orderId, setOrderId] = useState<string | number | null>(null);
+  const [showTrackingPrompt, setShowTrackingPrompt] = useState(false);
+
+  const openTracking = () => {
+    if (orderId == null) return;
+    window.open(buildTrackingUrl(orderId), "_blank", "noopener,noreferrer");
+    setShowTrackingPrompt(false);
+  };
 
   const selectedDistrict: District | undefined = findDistrict(districts, address.bairro);
   const deliveryFee = deliveryType === "entrega" ? (selectedDistrict?.deliveryFee ?? 0) : 0;
@@ -397,7 +412,9 @@ export const CheckoutFlow = ({ onBack }: Props) => {
       }
 
       const result = await submitOrder(payload);
-      setOrderId(result?.id ?? null);
+      const newOrderId = result?.id ?? null;
+      setOrderId(newOrderId);
+      setShowTrackingPrompt(newOrderId != null);
       clearCart();
       setStep("success");
     } catch (err) {
@@ -429,9 +446,46 @@ export const CheckoutFlow = ({ onBack }: Props) => {
             Seu pedido foi enviado ao restaurante e em breve estará em preparo.
           </p>
         </div>
-        <Button onClick={onBack} className="mt-4 rounded-full px-8 py-5">
+        {orderId != null && (
+          <Button
+            onClick={openTracking}
+            className="mt-2 rounded-full px-6 py-5 bg-green-600 hover:bg-green-700 text-white"
+          >
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Acompanhar pelo WhatsApp
+          </Button>
+        )}
+        <Button onClick={onBack} variant={orderId != null ? "outline" : "default"} className="rounded-full px-8 py-5">
           Voltar ao cardápio
         </Button>
+
+        {showTrackingPrompt && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4"
+            onClick={() => setShowTrackingPrompt(false)}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="tracking-title"
+              className="w-full max-w-sm rounded-2xl bg-card p-6 text-left shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 id="tracking-title" className="text-base font-bold text-foreground">
+                Acompanhar pedido
+              </h3>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Deseja acompanhar o status do seu pedido pelo WhatsApp?
+              </p>
+              <div className="mt-6 flex justify-end gap-2">
+                <Button variant="ghost" onClick={() => setShowTrackingPrompt(false)}>
+                  Cancelar
+                </Button>
+                <Button onClick={openTracking}>Sim, acompanhar</Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
