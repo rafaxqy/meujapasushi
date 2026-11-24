@@ -412,7 +412,9 @@ export const CheckoutFlow = ({ onBack }: Props) => {
       }
 
       const result = await submitOrder(payload);
-      const newOrderId = result?.id ?? null;
+      // "number" é o nº sequencial do pedido (o que o bot do WhatsApp reconhece);
+      // "id" é o ID interno do banco e não serve para o acompanhamento.
+      const newOrderId = result?.number ?? result?.id ?? null;
       setOrderId(newOrderId);
       setShowTrackingPrompt(newOrderId != null);
       clearCart();

@@ -185,6 +185,7 @@ export type OrderPayload = {
 
 export type OrderResponse = {
   id?: number | string;
+  number?: number | string;
   [key: string]: unknown;
 };
 
